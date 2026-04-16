@@ -1,0 +1,220 @@
+.gallery-page {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 140px 32px 100px;
+
+    @media screen and (max-width: 900px) {
+        padding: 120px 20px 80px;
+    }
+}
+
+.hero,
+.collection-section {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+.hero,
+.collection-section {
+    background: rgba(255, 255, 255, 0.74);
+    border: 1px solid rgba(from var(--text-primary) r g b / 0.08);
+    box-shadow: 0 24px 60px rgba(38, 29, 19, 0.06);
+}
+
+.hero {
+    border-radius: 38px;
+    padding: 36px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 20px;
+    align-items: end;
+    background:
+        radial-gradient(circle at top right, rgba(from var(--background-accent-2) r g b / 0.16), transparent 30%),
+        linear-gradient(140deg, rgba(255, 255, 255, 0.88), rgba(from var(--background-neutral) r g b / 0.95));
+
+    @media screen and (max-width: 1000px) {
+        grid-template-columns: 1fr;
+        padding: 24px;
+    }
+}
+
+.eyebrow,
+.label,
+.card-index {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-accent);
+}
+
+.hero h1,
+.collection-section h2 {
+    font-family: var(--ff-tinos), serif;
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+    color: var(--text-primary);
+}
+
+.hero h1 {
+    font-size: clamp(3rem, 6vw, 6rem);
+    max-width: 10ch;
+}
+
+.lead,
+.section-copy,
+.card-copy p:last-child {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+}
+
+.hero-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.metric {
+    min-width: 220px;
+    padding: 18px 20px;
+    border-radius: 24px;
+    background: rgba(from var(--background-primary) r g b / 0.8);
+    border: 1px solid rgba(from var(--text-primary) r g b / 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.metric .value {
+    font-family: var(--ff-tinos), serif;
+    font-size: 2.2rem;
+    line-height: 1;
+}
+
+.metric .label {
+    font-size: 14px;
+    color: var(--text-accent);
+}
+
+.secondary-button {
+    min-height: 54px;
+    padding: 0 24px;
+    border-radius: var(--br-100);
+    border: 1px solid rgba(from var(--text-primary) r g b / 0.16);
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+
+    &:hover {
+        transform: translateY(-2px);
+        border-color: rgba(from var(--background-accent) r g b / 0.4);
+        color: var(--background-accent);
+    }
+}
+
+.collection-section {
+    border-radius: 34px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    @media screen and (max-width: 700px) {
+        padding: 22px;
+    }
+}
+
+.section-head {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    h2 {
+        font-size: clamp(2.1rem, 4.8vw, 4rem);
+        max-width: 14ch;
+    }
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+
+    @media screen and (max-width: 1200px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media screen and (max-width: 760px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card {
+    border-radius: 28px;
+    overflow: hidden;
+    background: rgba(from var(--background-primary) r g b / 0.82);
+    border: 1px solid rgba(from var(--text-primary) r g b / 0.08);
+    display: flex;
+    flex-direction: column;
+}
+
+.card-image {
+    width: 100%;
+    border: none;
+    padding: 0;
+    background: linear-gradient(180deg, rgba(from var(--background-neutral) r g b / 0.4), rgba(from var(--background-primary) r g b / 0.95));
+    cursor: pointer;
+    overflow: hidden;
+
+    img {
+        width: 100%;
+        height: 320px;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    &:hover img {
+        transform: scale(1.04);
+    }
+}
+
+.card-copy {
+    padding: 20px 22px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    h3 {
+        font-size: 1.45rem;
+        line-height: 1.2;
+        text-wrap: balance;
+    }
+
+    p:last-child {
+        font-size: 16px;
+        line-height: 1.65;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .lead,
+    .section-copy,
+    .card-copy p:last-child {
+        font-size: 16px;
+    }
+
+    .hero h1 {
+        max-width: none;
+    }
+}

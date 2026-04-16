@@ -1,0 +1,213 @@
+<div class="home-page">
+    <section class="hero">
+        <div class="hero-copy">
+            <p class="eyebrow">Виртуальный музей истории Руси</p>
+            <h1>Русь после испытания: как камень, икона и город собрали страну заново.</h1>
+            <p class="lead">
+                Главная выставка сезона посвящена XIII–XV векам: времени, когда после разорения
+                заново выстраиваются города, появляется новый язык обороны и рождается один из
+                самых сильных визуальных образов русской истории.
+            </p>
+
+            <div class="hero-actions">
+                <button type="button" class="primary-button" (click)="openExhibition(featuredExhibition()?.id)">
+                    Открыть выставку
+                </button>
+                <button type="button" class="secondary-button" (click)="navigate('gallery')">
+                    Смотреть коллекцию
+                </button>
+            </div>
+
+            <div class="hero-metrics">
+                <div class="metric">
+                    <span class="value">01</span>
+                    <span class="label">действующая выставка</span>
+                </div>
+                <div class="metric">
+                    <span class="value">{{ exhibitCount() }}</span>
+                    <span class="label">экспоната в коллекции</span>
+                </div>
+                <div class="metric">
+                    <span class="value">03</span>
+                    <span class="label">следующие темы в плане</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-panel">
+            <article class="curator-card">
+                <p class="card-label">Текущая выставка</p>
+                <h2>{{ featuredExhibition()?.title || 'Русь XIII–XV веков: испытание и возрождение' }}</h2>
+                <p>
+                    {{
+                        featuredExhibition()?.small_content ||
+                            'Маршрут о кремлях, монастырях, оружии, фреске и иконописи как языке собирающегося государства.'
+                    }}
+                </p>
+                <button type="button" class="inline-link" (click)="scrollTo('current-exhibition')">
+                    Как устроен маршрут
+                </button>
+            </article>
+
+            <div class="hero-visual">
+                <img src="images/exhibits/img_20.png" alt="Троица Андрея Рублева" />
+            </div>
+        </div>
+
+        <div class="orb orb-left"></div>
+        <div class="orb orb-right"></div>
+    </section>
+
+    <section class="overview" id="museum-route">
+        <div class="section-head">
+            <p class="section-label">Что внутри музея</p>
+            <h2>Одна выставка уже работает, но структура страницы рассчитана на музейную программу, а не на блог.</h2>
+        </div>
+
+        <div class="overview-grid">
+            @for (card of overviewCards; track card.title) {
+                <article class="overview-card">
+                    <p class="index">0{{ $index + 1 }}</p>
+                    <h3>{{ card.title }}</h3>
+                    <p>{{ card.description }}</p>
+                </article>
+            }
+        </div>
+    </section>
+
+    <section class="featured-exhibition" id="current-exhibition">
+        <div class="section-head split">
+            <div>
+                <p class="section-label">Главная экспозиция</p>
+                <h2>{{ featuredExhibition()?.title || 'Русь XIII–XV веков' }}</h2>
+            </div>
+            <p class="section-copy">
+                Сейчас музей работает как единый кураторский проход: от архитектуры и планировки
+                русских городов к фортификации, затем к фреске и иконе. Это не набор случайных
+                статей, а одна длинная история с предметами, которые можно открывать прямо по ходу
+                чтения.
+            </p>
+        </div>
+
+        <div class="featured-layout">
+            <article class="feature-note">
+                <p class="note-label">Маршрут просмотра</p>
+
+                <div class="route-item">
+                    <span>01</span>
+                    <div>
+                        <h3>Архитектура собирающейся Руси</h3>
+                        <p>Кремли, монастыри-сторожи и новая столичная перспектива Москвы.</p>
+                    </div>
+                </div>
+
+                <div class="route-item">
+                    <span>02</span>
+                    <div>
+                        <h3>Северо-запад и оборонный опыт</h3>
+                        <p>Новгород, Псков и реакция городов на огнестрельное оружие.</p>
+                    </div>
+                </div>
+
+                <div class="route-item">
+                    <span>03</span>
+                    <div>
+                        <h3>Фреска и иконопись</h3>
+                        <p>Феофан, Рублев и Дионисий как художественный итог эпохи.</p>
+                    </div>
+                </div>
+            </article>
+
+            <article class="feature-story">
+                <p>
+                    Визуально страница устроена как музейный вестибюль: крупный вход, спокойная
+                    типографика, редкие акценты и много воздуха. Внутри самой выставки материал
+                    остаётся плотным и историческим, но подача становится чище: длинный текст
+                    разбит на главы, а экспонаты встроены как полноценные остановки маршрута.
+                </p>
+                <p>
+                    Следующие три выставки можно добавлять без смены структуры: для них уже есть
+                    отдельный блок на главной, а навигация больше не зависит от промежуточной
+                    страницы со списком блогов.
+                </p>
+
+                <div class="feature-actions">
+                    <button type="button" class="primary-button" (click)="openExhibition(featuredExhibition()?.id)">
+                        Перейти к экспозиции
+                    </button>
+                    <button type="button" class="secondary-button" (click)="navigate('gallery')">
+                        Открыть все экспонаты
+                    </button>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="artifact-preview">
+        <div class="section-head">
+            <p class="section-label">Выбор куратора</p>
+            <h2>Несколько точек входа в выставку, если хочется начать не с текста, а с предмета.</h2>
+        </div>
+
+        <div class="artifact-grid">
+            @for (card of featuredArtifacts(); track card.id) {
+                @if (card.exhibit; as exhibit) {
+                    <article class="artifact-card">
+                        <button
+                            #artifactCard
+                            type="button"
+                            class="artifact-media"
+                            (click)="openExhibit(exhibit, artifactCard)"
+                        >
+                            <img [src]="'images/exhibits/' + exhibit.src[0]" [alt]="exhibit.name" />
+                        </button>
+
+                        <div class="artifact-copy">
+                            <p class="artifact-kicker">{{ card.section }}</p>
+                            <h3>{{ exhibit.name }}</h3>
+                            <p>{{ card.description }}</p>
+                            <span>{{ card.period }}</span>
+                        </div>
+                    </article>
+                }
+            }
+        </div>
+    </section>
+
+    <section class="planned-exhibitions">
+        <div class="section-head split">
+            <div>
+                <p class="section-label">Следующие выставки</p>
+                <h2>Пока работает одна экспозиция, но главная уже ведет себя как афиша музея.</h2>
+            </div>
+            <p class="section-copy">
+                Вместо страницы со списком блогов здесь теперь блок с будущей программой. Он
+                спокойно расширится до трех полноценных выставок, не ломая ритм главной страницы.
+            </p>
+        </div>
+
+        <div class="planned-grid">
+            @for (item of plannedExhibitions; track item.title) {
+                <article class="planned-card">
+                    <p class="status">{{ item.status }}</p>
+                    <h3>{{ item.title }}</h3>
+                    <p>{{ item.description }}</p>
+                </article>
+            }
+        </div>
+    </section>
+
+    <section class="cta">
+        <div>
+            <p class="section-label">Связь с музеем</p>
+            <h2>Если захочешь расширить программу, структура уже готова: остаётся добавлять новые выставки и экспонаты.</h2>
+        </div>
+
+        <div class="cta-actions">
+            <a href="mailto:boriskiva67@gmail.com">boriskiva67&#64;gmail.com</a>
+            <button type="button" class="secondary-button" (click)="openExhibition(featuredExhibition()?.id)">
+                Вернуться к выставке
+            </button>
+        </div>
+    </section>
+</div>

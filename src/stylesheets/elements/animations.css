@@ -1,0 +1,105 @@
+img.lazy {
+    visibility: hidden;
+
+    &.visible {
+        animation-duration:  1s;
+        animation-fill-mode: both;
+        animation-name:      fadeIn;
+        visibility:          visible;
+    }
+}
+
+.slideX {
+    will-change: transform, opacity;
+
+    &.visible {
+        animation: slideInX 1s cubic-bezier(.2, .9, .3, 1) forwards;
+    }
+}
+
+.slideY {
+    will-change: transform, opacity;
+
+    &.visible {
+        animation: slideInY 1s cubic-bezier(.2, .9, .3, 1) forwards;
+    }
+}
+
+.split-header {
+    overflow: hidden;
+
+    h1 {
+        font-size:      4em;
+        font-family:    var(--ff-manrope), sans-serif;
+        letter-spacing: 1px;
+        margin:         0;
+        overflow:       hidden;
+
+        @media screen and (max-width: 900px) {
+            font-size: 3em;
+        }
+
+        @media screen and (max-width: 600px) {
+            font-size: 2em;
+        }
+    }
+
+    span {
+        display:     inline-block;
+        transform:   translateY(-120%);
+        opacity:     0;
+        will-change: transform, opacity;
+    }
+
+    &.visible {
+        span {
+            animation:       slideInY 420ms cubic-bezier(.2, .9, .3, 1) forwards;
+            animation-delay: calc(var(--i) * 0.05s);
+        }
+    }
+}
+
+.moveable-image {
+    display:         flex;
+    transform-style: preserve-3d;
+    will-change:     transform;
+    transform:       perspective(1500px) rotateX(0deg) rotateY(0deg);
+
+    img {
+        transition: transform .6s;
+    }
+
+    &:hover {
+        img {
+            transform:  scale(1.02);
+            box-shadow: 0 1px 10px rgba(from var(--text-primary) r g b / 0.2);
+        }
+    }
+}
+
+.overflow-important {
+    overflow: visible !important;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInY {
+    to {
+        transform: translateY(0);
+        opacity:   1;
+    }
+}
+
+@keyframes slideInX {
+    to {
+        transform: translateX(0);
+        opacity:   1;
+    }
+}

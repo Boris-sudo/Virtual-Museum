@@ -1,0 +1,51 @@
+/* VARIABLES */
+
+:root { /* fonts */
+    --ff-lato:    "Lato";
+    --ff-roboto:  "Roboto";
+    --ff-jost:    "Jost";
+    --ff-inter:   "Inter";
+    --ff-noto:    "Noto Sans";
+    --ff-manrope: "Manrope";
+    --ff-viaoda:  "Viaoda Libre";
+    --ff-tinos:   "Tinos";
+}
+
+:root { /* colors */
+    /* MAIN COLORS */
+    --interaction-primary:  rgb(111, 90, 65);
+    --accent-color-1:       rgb(191, 104, 71);
+
+    --background-primary:   rgb(247, 243, 236);
+    --background-secondary: rgb(221, 212, 199);
+    --background-neutral:   rgb(236, 228, 216);
+    --background-accent:    rgb(191, 104, 71);
+    --background-accent-2:  rgb(179, 148, 98);
+    --background-accent-3:  rgb(131, 153, 137);
+
+    --text-primary:         rgb(27, 24, 21);
+    --text-secondary:       rgb(71, 60, 48);
+    --text-accent:          rgb(123, 110, 96);
+}
+
+:root { /* sizes */
+    --header-small-height: 80px;
+    --header-big-height:   120px;
+
+    @media screen and (max-width: 600px) {
+        --header-small-height: 60px;
+        --header-big-height:   100px;
+    }
+}
+
+:root { /* border radius */
+    --br-100: 999px;
+    --br-32:  32px;
+    --br-16:  16px;
+    --br-8:   8px;
+}
+
+:root { /* transition duration times */
+    --slow-transition-time: .6s;
+    --fast-transition-time: .3s;
+}

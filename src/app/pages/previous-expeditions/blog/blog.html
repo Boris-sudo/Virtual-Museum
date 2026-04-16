@@ -1,0 +1,41 @@
+<div class="container">
+
+    @if (blogLoaded()) {
+        <div class="banner" [style]="{'background-image': 'url('+blog.preview+')'}">
+            <h1>{{ blog.title }}</h1>
+        </div>
+
+        <div class="blog-container">
+            <div class="chapters">
+                @for (blogContent of blog.content; track blogContent) {
+                    <p>{{ blogContent.title }}</p>
+                }
+            </div>
+            <div class="text-container">
+                @for (blogContent of blog.content; track blog) {
+                    <div class="data">
+                        @for (blogData of blogContent.data; track blog) {
+                            <p [innerHTML]="''+blogData.text"></p>
+
+                            <figure
+                                    [style.max-width]="blogData.exhibits.length === 1 ? '600px' : 'none'"
+                                    class="images-container"
+                            >
+                                <div class="images">
+                                    @for (exhibitId of blogData.exhibits; track blog) {
+                                        <Exhibit [exhibitId]="exhibitId"/>
+                                    }
+                                </div>
+                                @if (blogContent.title) {
+                                    <figcaption>{{ blogContent.title }}</figcaption>
+                                }
+                            </figure>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    } @else {
+
+    }
+</div>

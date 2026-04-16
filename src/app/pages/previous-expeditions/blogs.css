@@ -1,0 +1,180 @@
+.banner {
+    display:        flex;
+    flex-direction: row;
+    width:          100%;
+}
+
+.filter {
+    width:         100%;
+    min-height:    100px;
+    background:    var(--background-neutral);
+    padding:       32px 24px 16px;
+    border-radius: var(--br-16);
+    display:        flex;
+    flex-direction: column;
+    gap:            20px;
+
+    .labels {
+        display:        flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap:            20px;
+        width:     100%;
+    }
+
+    .work-buttons {
+        display:         flex;
+        flex-direction:  row;
+        justify-content: flex-end;
+
+        .reset {
+            padding:       8px 10px;
+            font-size:     14px;
+            font-weight:   500;
+            color:         var(--background-primary);
+            background:    var(--text-primary);
+            border:        none;
+            outline:       none;
+            border-radius: var(--br-8);
+            cursor:        pointer;
+
+            &:disabled {
+                background: var(--text-secondary);
+            }
+
+            &:hover {
+                background: var(--text-accent);
+            }
+        }
+    }
+}
+
+.content {
+    margin-top:            40px;
+    width:                 100%;
+    display:               grid;
+    gap:                   20px;
+    grid-template-columns: repeat(3, 1fr);
+
+    @media screen and (max-width: 1000px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media screen and (max-width: 700px) {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    &:has(p.empty-list) {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .empty-list {
+        font-size:   20px;
+        font-weight: 600;
+        font-family: var(--ff-lato), sans-serif;
+        color:       var(--text-secondary);
+        text-align:  center;
+        width:       100%;
+    }
+
+    .card {
+        width:               100%;
+        border-radius:       var(--br-16);
+        box-shadow:          0 10px 15px rgba(0, 0, 0, 0.0);
+        transition-duration: .3s;
+        cursor:              pointer;
+        display:             flex;
+        flex-direction:      column;
+        container-type:      inline-size;
+
+        &:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .preview {
+            width: 100%;
+
+            img {
+                width:           100%;
+                aspect-ratio:    3/2;
+                object-fit:      cover;
+                object-position: center;
+                border-radius:   var(--br-16);
+            }
+        }
+
+        .card-content {
+            padding: 8px 16px;
+
+            .name {
+                font-size:   24px;
+                font-weight: 600;
+                font-family: var(--ff-lato), sans-serif;
+            }
+
+            .text {
+                font-size:          18px;
+                letter-spacing:     .1px;
+                line-height:        110%;
+                margin:             20px 0;
+                font-family:        var(--ff-inter), sans-serif;
+                color:              var(--text-accent);
+                display:            -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 3;
+                overflow:           hidden;
+            }
+
+            .date {
+                font-size:   18px;
+                font-weight: 600;
+                color:       var(--text-secondary);
+            }
+
+            .info {
+                display:         flex;
+                flex-direction:  row;
+                justify-content: space-between;
+                align-items:     center;
+
+                button {
+                    border:        none;
+                    outline:       none;
+                    background:    var(--background-neutral);
+                    color:         var(--text-secondary);
+                    font-size:     14px;
+                    padding:       6px 10px;
+                    border-radius: var(--br-8);
+                    transition-duration: .3s;
+                    cursor:        pointer;
+
+                    &:hover {
+                        background: var(--text-primary);
+                        color:      var(--background-primary);
+                    }
+                }
+            }
+
+            @container (max-width: 420px) {
+                name {
+                    font-size: 20px;
+                }
+
+                .text, .date {
+                    font-size: 16px;
+                }
+            }
+
+            @container (max-width: 350px) {
+                .name {
+                    font-size: 18px;
+                }
+
+                .text {
+                    margin:    8px 0;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}

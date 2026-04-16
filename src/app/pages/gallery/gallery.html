@@ -1,0 +1,48 @@
+<div class="gallery-page">
+    <section class="hero">
+        <div>
+            <p class="eyebrow">Коллекция музея</p>
+            <h1>Экспонаты текущей выставки</h1>
+            <p class="lead">
+                Здесь вся действующая коллекция собрана как витрина: можно открыть предмет,
+                прочитать описание и сразу вернуться к просмотру, не уходя на отдельную страницу.
+            </p>
+        </div>
+
+        <div class="hero-actions">
+            <div class="metric">
+                <span class="value">{{ exhibits().length || 22 }}</span>
+                <span class="label">экспоната в каталоге</span>
+            </div>
+            <button type="button" class="secondary-button" (click)="navigate('blog/1')">
+                К выставке
+            </button>
+        </div>
+    </section>
+
+    @for (section of collectionSections(); track section.title) {
+        <section class="collection-section">
+            <div class="section-head">
+                <p class="eyebrow">{{ section.eyebrow }}</p>
+                <h2>{{ section.title }}</h2>
+                <p class="section-copy">{{ section.description }}</p>
+            </div>
+
+            <div class="cards-grid">
+                @for (exhibit of section.exhibits; track exhibit.id) {
+                    <article class="card">
+                        <button #cardButton type="button" class="card-image" (click)="openExhibit(exhibit, cardButton)">
+                            <img [src]="'images/exhibits/' + exhibit.src[0]" [alt]="exhibit.name" />
+                        </button>
+
+                        <div class="card-copy">
+                            <p class="card-index">{{ exhibit.id < 10 ? '0' + exhibit.id : exhibit.id }}</p>
+                            <h3>{{ exhibit.name }}</h3>
+                            <p>{{ excerpt(exhibit.description) }}</p>
+                        </div>
+                    </article>
+                }
+            </div>
+        </section>
+    }
+</div>

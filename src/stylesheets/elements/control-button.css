@@ -1,0 +1,90 @@
+.control-button {
+    width:         fit-content;
+    position:      relative;
+    display:       flex;
+    background:    var(--background-primary);
+    color:         var(--text-primary);
+    outline:       none;
+    border:        none;
+    border-radius: var(--br-100);
+    padding:       13px 32px;
+    cursor:        pointer;
+    z-index:       1;
+    overflow:      hidden;
+    justify-content: space-between;
+
+    @media screen and (max-width: 500px) {
+        padding: 8px 20px;
+    }
+
+    p {
+        font-size:           16px;
+        font-weight:         700;
+        margin-right:        5px;
+        transition-duration: .6s;
+        letter-spacing:      1px;
+
+        @media screen and (max-width: 500px) {
+            font-size: 14px;
+        }
+    }
+
+    & > span {
+        display:         flex;
+        align-items:     center;
+        justify-content: center;
+        padding-right:   8px;
+
+        @media screen and (max-width: 500px) {
+            padding-right: 3px;
+        }
+
+        svg {
+            transition-duration: .6s;
+        }
+
+        span {
+            position:            absolute;
+            top:                 50%;
+            right:               32px;
+            transform:           translateY(-50%);
+            width:               20px;
+            aspect-ratio:        1/1;
+            background:          var(--background-accent);
+            border-radius:       var(--br-100);
+            z-index:             -1;
+            transition-duration: .6s;
+
+            @media screen and (max-width: 500px) {
+                right: 13px;
+            }
+        }
+    }
+
+    &.no-overflow {
+        overflow: visible;
+        transform-origin: center;
+    }
+
+    &:not(:is(.no-overflow)):hover > span > span {
+        width: 100%;
+        right: 0;
+    }
+
+    &.border {
+        border: 2px solid var(--text-primary);
+    }
+
+    &.reversed {
+        background: var(--text-primary);
+        color:      var(--background-primary);
+    }
+
+    &:hover {
+        color: var(--background-primary);
+
+        &.border {
+            border-color: var(--background-accent);
+        }
+    }
+}

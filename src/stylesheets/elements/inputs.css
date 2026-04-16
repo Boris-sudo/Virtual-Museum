@@ -1,0 +1,96 @@
+.input-field {
+    display:        flex;
+    flex-direction: column;
+    gap:            8px;
+
+    input {
+        min-width: 300px;
+    }
+
+    select {
+        min-width: 200px;
+    }
+
+    input, select {
+        display:             block;
+        width:               100%;
+        padding:             10px 16px;
+        border:              1px solid var(--background-primary);
+        background:          var(--background-primary);
+        color:               var(--text-primary);
+        outline:             none;
+        border-radius:       var(--br-8);
+        transition-duration: .3s;
+
+        &::placeholder {
+            color: var(--text-secondary);
+        }
+
+        &:hover {
+            border-color: var(--text-accent);
+        }
+
+        &:focus, &:active {
+            border-color: var(--text-secondary);
+        }
+    }
+
+    p {
+        font-size:   16px;
+        font-weight: 500;
+        color:       var(--text-accent);
+    }
+
+    &.interval-select {
+        div {
+            display:        flex;
+            flex-direction: row;
+            align-items:    center;
+            gap:            10px;
+
+            span {
+                font-size:   18px;
+                font-weight: 600;
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            span:first-of-type, span:last-of-type {
+                display: none;
+            }
+        }
+
+        select {
+            width:     100px;
+            min-width: unset;
+        }
+    }
+
+    &:has(input) {
+        @media screen and (max-width: 600px) {
+            width: 100%;
+            input {
+                width: 100%;
+            }
+        }
+    }
+
+    @media screen and (max-width: 550px) {
+        width: 100%;
+
+        input, select {
+            min-width: unset;
+            width:     100%;
+        }
+
+        &.interval-select {
+            div {
+                width: 100%;
+            }
+
+            select {
+                width: 100%;
+            }
+        }
+    }
+}

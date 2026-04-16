@@ -1,0 +1,71 @@
+<div class="page-container">
+
+    <div class="banner">
+        <h1 class="page-header">Читайте также о наших предыдущих походах</h1>
+    </div>
+
+    <div class="filter">
+        <div class="labels">
+            <label class="input-field">
+                <p>Название</p>
+                <input [(ngModel)]="blogFilter.name" type="text" placeholder="Название блога">
+            </label>
+
+            <label class="input-field">
+                <p>Год</p>
+                <select [(ngModel)]="blogFilter.year">
+                    <option value="all">Все</option>
+                    @for (year of years; track years) {
+                        <option [value]="year">{{ year }}</option>
+                    }
+                </select>
+            </label>
+
+            <label class="input-field interval-select">
+                <p>Сложность</p>
+                <div>
+                    <span>от</span>
+                    <select [(ngModel)]="blogFilter.min_difficulty">
+                        @for (difficulty of difficulties; track difficulties) {
+                            <option [hidden]="difficulty > Number(blogFilter.max_difficulty)" [value]="difficulty">{{ difficulty }}</option>
+                        }
+                    </select>
+                    <span>-</span>
+                    <span>до</span>
+                    <select [(ngModel)]="blogFilter.max_difficulty">
+                        @for (difficulty of difficulties; track difficulties) {
+                            <option [hidden]="difficulty < Number(blogFilter.min_difficulty)" [value]="difficulty">{{ difficulty }}</option>
+                        }
+                    </select>
+                </div>
+            </label>
+        </div>
+
+        <div class="work-buttons">
+            <button class="reset" (click)="resetFilters()" [disabled]="isFilterEmpty()">Сбросить</button>
+        </div>
+    </div>
+
+    <div class="content">
+        @for (
+            blog of blogs() | blogsFilter:blogFilter.year:blogFilter.name:blogFilter.min_difficulty:blogFilter.max_difficulty; track blogs()) {
+            <div (click)="redirectToId(blog.id)" class="card">
+                <div class="preview">
+                    <img [src]="blog.preview" alt="blog preview">
+                </div>
+                <div class="card-content">
+                    <p class="name">{{ blog.title }}</p>
+                    <p class="text">{{ blog.small_content }}</p>
+
+                    <div class="info">
+                        <p class="date">{{ blog.date }}</p>
+                        <button>Читать ещё</button>
+                    </div>
+                </div>
+            </div>
+        } @empty {
+            <p class="empty-list">По вашему фильтру ничего не нашлось :(</p>
+        }
+    </div>
+
+</div>
