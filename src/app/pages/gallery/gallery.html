@@ -1,48 +1,134 @@
 <div class="gallery-page">
+    <div class="grid-lines"></div>
+    
     <section class="hero">
-        <div>
-            <p class="eyebrow">Коллекция музея</p>
-            <h1>Экспонаты текущей выставки</h1>
-            <p class="lead">
-                Здесь вся действующая коллекция собрана как витрина: можно открыть предмет,
-                прочитать описание и сразу вернуться к просмотру, не уходя на отдельную страницу.
-            </p>
+        <div class="hero-content">
+            <div class="hero-index reveal slide-left">
+                <span class="index-line"></span>
+                <span class="index-text">Gallery</span>
+            </div>
+            
+            <div class="hero-text">
+                <h1 class="reveal">
+                    <span class="word-wrap"><span class="word">Коллекция</span></span><br>
+                    <span class="word-wrap"><span class="word">экспонатов</span></span>
+                </h1>
+                <p class="hero-subtitle reveal" style="transition-delay: 0.3s">
+                    Виртуальная витрина музея — каталог предметов XIII–XV веков
+                </p>
+            </div>
+            
+            <div class="hero-meta reveal" style="transition-delay: 0.5s">
+                <div class="meta-stat">
+                    <span class="meta-number">{{ exhibits().length || 22 }}</span>
+                    <span class="meta-label">экспонатов</span>
+                </div>
+                <button type="button" class="btn-secondary" (click)="navigate('blog/1')">
+                    К выставке →
+                </button>
+            </div>
+        </div>
+        
+        <div class="hero-visual reveal slide-right" style="transition-delay: 0.2s">
+            <div class="visual-decoration">
+                <div class="deco-grid"></div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="catalog">
+        <div class="catalog-header">
+            <div class="header-left reveal slide-left">
+                <span class="section-index">01 — Catalog</span>
+                <h2>Каталог<br/>экспонатов</h2>
+            </div>
+            
+            <div class="filter-tabs reveal slide-right" style="transition-delay: 0.2s">
+                @for (cat of categories(); track cat.key) {
+                    <button
+                            type="button"
+                            class="filter-tab"
+                            [class.active]="activeCategory() === cat.key"
+                            (click)="setCategory(cat.key)"
+                    >
+                        {{ cat.label }}
+                    </button>
+                }
+            </div>
+        </div>
+        
+        <div class="exhibits-grid">
+            @for (exhibit of filteredExhibits(); track exhibit.id; let i = $index) {
+                <article class="exhibit-card reveal" [style.transition-delay.ms]="50 + (i % 6) * 50">
+                    <button
+                            type="button"
+                            class="card-media tilt-card"
+                            (click)="openExhibit(exhibit, $event.target)"
+                    >
+                        <img [src]="'images/exhibits/' + exhibit.src[0]" [alt]="exhibit.name"/>
+                        <div class="card-overlay">
+                            <span class="overlay-action">Смотреть →</span>
+                        </div>
+                    </button>
+                    <div class="card-info">
+                        <span class="card-id">{{ exhibit.id < 10 ? '0' + exhibit.id : exhibit.id }}</span>
+                        <h3>{{ exhibit.name }}</h3>
+                        <p>{{ excerpt(exhibit.description) }}</p>
+                    </div>
+                </article>
+            }
+        </div>
+    </section>
+    
+    <section class="sections">
+        <div class="section-header">
+            <div class="header-left reveal slide-left">
+                <span class="section-index">02 — Sections</span>
+                <h2>Разделы<br/>коллекции</h2>
+            </div>
         </div>
 
-        <div class="hero-actions">
-            <div class="metric">
-                <span class="value">{{ exhibits().length || 22 }}</span>
-                <span class="label">экспоната в каталоге</span>
+        @for (section of collectionSections(); track section.title; let i = $index) {
+            <div class="section-block reveal" [style.transition-delay.ms]="i * 150">
+                <div class="block-head">
+                    <span class="block-index">0{{ i + 1 }}</span>
+                    <div class="block-info">
+                        <span class="block-category">{{ section.eyebrow }}</span>
+                        <h3>{{ section.title }}</h3>
+                        <p>{{ section.description }}</p>
+                    </div>
+                    <span class="block-count">{{ section.exhibits.length }} предметов</span>
+                </div>
+                
+                <div class="section-preview">
+                    @for (exhibit of section.exhibits.slice(0, 4); track exhibit.id) {
+                        <button
+                                type="button"
+                                class="preview-thumb tilt-card"
+                                (click)="openExhibit(exhibit, $event.target)"
+                        >
+                            <img [src]="'images/exhibits/' + exhibit.src[0]" [alt]="exhibit.name"/>
+                        </button>
+                    }
+                </div>
             </div>
-            <button type="button" class="secondary-button" (click)="navigate('blog/1')">
-                К выставке
+        }
+    </section>
+    
+    <section class="cta">
+        <div class="cta-content reveal">
+            <span class="section-index">03 — Explore</span>
+            <h2>Изучите<br/>экспозицию</h2>
+            <p>Погрузитесь в историю XIII–XV веков через интерактивную выставку</p>
+        </div>
+        
+        <div class="cta-actions reveal" style="transition-delay: 0.2s">
+            <button type="button" class="btn-primary" (click)="navigate('blog/1')">
+                <span>Открыть выставку</span>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
             </button>
         </div>
     </section>
-
-    @for (section of collectionSections(); track section.title) {
-        <section class="collection-section">
-            <div class="section-head">
-                <p class="eyebrow">{{ section.eyebrow }}</p>
-                <h2>{{ section.title }}</h2>
-                <p class="section-copy">{{ section.description }}</p>
-            </div>
-
-            <div class="cards-grid">
-                @for (exhibit of section.exhibits; track exhibit.id) {
-                    <article class="card">
-                        <button #cardButton type="button" class="card-image" (click)="openExhibit(exhibit, cardButton)">
-                            <img [src]="'images/exhibits/' + exhibit.src[0]" [alt]="exhibit.name" />
-                        </button>
-
-                        <div class="card-copy">
-                            <p class="card-index">{{ exhibit.id < 10 ? '0' + exhibit.id : exhibit.id }}</p>
-                            <h3>{{ exhibit.name }}</h3>
-                            <p>{{ excerpt(exhibit.description) }}</p>
-                        </div>
-                    </article>
-                }
-            </div>
-        </section>
-    }
 </div>

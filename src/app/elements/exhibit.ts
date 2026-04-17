@@ -1,6 +1,6 @@
-import {Component, effect, ElementRef, Input, ViewChild} from '@angular/core';
-import {ExhibitModel} from "../models/exhibit.model";
-import {ExhibitService} from "../services/exhibit";
+import { Component, effect, ElementRef, Input, ViewChild } from '@angular/core';
+import { ExhibitModel } from "../models/exhibit.model";
+import { ExhibitService } from "../services/exhibit";
 
 @Component({
     selector: 'Exhibit',
@@ -43,7 +43,7 @@ import {ExhibitService} from "../services/exhibit";
     template: `
         <div class="container">
             <div (click)="show_popup()" class="image-container">
-                <img [src]="'images/exhibits/' + exhibit.src[0]" [alt]="exhibit.name || 'Экспонат'" #imageElement>
+                <img [src]="'images/exhibits/' + exhibit?.src?.[0]" [alt]="exhibit?.name || 'Экспонат'" #imageElement>
             </div>
         </div>
     `,

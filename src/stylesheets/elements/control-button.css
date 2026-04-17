@@ -1,16 +1,16 @@
 .control-button {
-    width:         fit-content;
-    position:      relative;
-    display:       flex;
-    background:    var(--background-primary);
-    color:         var(--text-primary);
-    outline:       none;
-    border:        none;
-    border-radius: var(--br-100);
-    padding:       13px 32px;
-    cursor:        pointer;
-    z-index:       1;
-    overflow:      hidden;
+    width:           fit-content;
+    position:        relative;
+    display:         flex;
+    background:      var(--background-primary);
+    color:           var(--text-primary);
+    outline:         none;
+    border:          none;
+    border-radius:   var(--br-100);
+    padding:         13px 32px;
+    cursor:          pointer;
+    z-index:         1;
+    overflow:        hidden;
     justify-content: space-between;
 
     @media screen and (max-width: 500px) {
@@ -62,7 +62,7 @@
     }
 
     &.no-overflow {
-        overflow: visible;
+        overflow:         visible;
         transform-origin: center;
     }
 

@@ -1,172 +1,356 @@
-import { Component, effect, ElementRef, HostListener, Input, signal, ViewChild } from '@angular/core';
-import {ExhibitModel} from "../models/exhibit.model";
-import {ExhibitService} from "../services/exhibit";
+import { Component, effect, ElementRef, HostListener, signal, ViewChild } from '@angular/core';
+import { ExhibitModel } from "../models/exhibit.model";
+import { ExhibitService } from "../services/exhibit";
 
 @Component({
     selector: 'ExhibitPopup',
     standalone: true,
     imports: [],
     styles: `
-        .container {
-            width: 100vw;
-            height: 100vh;
+        .popup-overlay {
+            --swiss-black: #1a1815;
+            --swiss-white: #fafafa;
+            --swiss-gray: #6b6560;
+            --swiss-light: #e8e6e3;
+            --swiss-accent: #bf6847;
+            
             position: fixed;
-            top: 0;
-            left: 0;
+            inset: 0;
             z-index: 30000;
-            display: none;
-            background: rgba(from var(--text-primary) r g b / 0.6);
-            backdrop-filter: blur(3px);
+            display: flex;
+            align-items: stretch;
             justify-content: center;
-            overflow-y: scroll;
-            overflow-x: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
 
-            .scroll-content {
-                width: 100vw;
-                max-width: 1200px;
-                min-height: 100%;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                overflow-x: hidden;
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
 
-                .image {
-                    max-width: 800px;
-                    width: fit-content;
-                    position: relative;
-                    
-                    .next, .prev {
-                        position: absolute;
-                        top: 50%;
-                        transform: translateY(-50%);
-                        background: rgba(from var(--background-primary) r g b / .3);
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        width: 30px;
-                        height: 30px;
-                        border-radius: var(--br-100);
-                        
-                        &.next {
-                            right: 5px;
-                        }
-                        
-                        &.prev {
-                            left: 5px;
-                        }
-                    }
-                }
+        .popup-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(26, 24, 21, 0.95);
+            backdrop-filter: blur(8px);
+        }
 
-                .info {
-                    width: 100%;
+        .popup-container {
+            position: relative;
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            background: var(--swiss-white);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            transform: scale(0.98);
+            transition: transform 0.4s cubic-bezier(0.5, 0, 0, 1);
+        }
 
-                    .header {
-                        font-size: 25px;
-                        font-weight: 600;
-                        margin-bottom: 10px;
-                        margin-top: 20px;
-                        color: var(--background-primary);
-                    }
+        .popup-overlay.active .popup-container {
+            transform: scale(1);
+        }
 
-                    .description {
-                        font-size: 20px;
-                        font-family: var(--ff-inter), sans-serif;
-                        letter-spacing: 0.3px;
-                        line-height: 120%;
-                        color: var(--background-primary);
-                    }
-                }
+        .popup-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 44px;
+            height: 44px;
+            background: rgba(26, 24, 21, 0.8);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
 
-                img {
-                    width: auto;
-                    object-fit: cover;
-                    min-height: 400px;
+        .popup-close:hover {
+            background: var(--swiss-accent);
+            transform: rotate(90deg);
+        }
 
-                    @media screen and (max-width: 1000px) {
-                        min-height: 300px;
-                    }
+        .popup-close svg {
+            width: 18px;
+            height: 18px;
+            color: var(--swiss-white);
+        }
 
-                    @media screen and (max-width: 800px) {
-                        height: max-content;
-                        width: 100%;
-                    }
-                }
+        .popup-image-section {
+            position: relative;
+            background: var(--swiss-black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .popup-image-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 32px;
+        }
+
+        .image-nav {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+
+        .image-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .image-dot.active {
+            background: var(--swiss-accent);
+            transform: scale(1.4);
+        }
+
+        .popup-info-section {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .popup-header {
+            padding: 28px 28px 20px;
+            border-bottom: 1px solid var(--swiss-light);
+            flex-shrink: 0;
+        }
+
+        .popup-category {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--swiss-accent);
+            margin-bottom: 8px;
+        }
+
+        .popup-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--swiss-black);
+            margin: 0;
+        }
+
+        .popup-content {
+            padding: 20px 28px 24px;
+            overflow-y: auto;
+            flex: 1;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .popup-description {
+            font-size: 14px;
+            line-height: 1.75;
+            color: var(--swiss-gray);
+            font-family: var(--ff-tinos), Georgia, serif;
+        }
+
+        .popup-description :deep(p) {
+            margin: 0 0 14px;
+        }
+
+        .popup-description :deep(p:last-child) {
+            margin-bottom: 0;
+        }
+
+        .popup-footer {
+            padding: 16px 28px;
+            border-top: 1px solid var(--swiss-light);
+            display: flex;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .footer-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: transparent;
+            border: 1px solid var(--swiss-light);
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--swiss-gray);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .footer-btn:hover:not(:disabled) {
+            border-color: var(--swiss-black);
+            color: var(--swiss-black);
+        }
+
+        .footer-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        .footer-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        @media (max-width: 850px) {
+            .popup-container {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                max-width: none;
+                width: 100%;
+                height: 100%;
+                max-height: none;
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr;
+            }
+
+            .popup-image-section {
+                height: 40vh;
+                min-height: 200px;
+                max-height: 45vh;
+            }
+
+            .popup-image-section img {
+                padding: 20px;
+            }
+
+            .popup-close {
+                top: 12px;
+                right: 12px;
+                width: 40px;
+                height: 40px;
+            }
+
+            .popup-info-section {
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .popup-header {
+                padding: 20px 20px 16px;
+            }
+
+            .popup-content {
+                padding: 16px 20px;
+            }
+
+            .popup-footer {
+                padding: 12px 20px;
+                position: sticky;
+                bottom: 0;
+                background: var(--swiss-white);
+            }
+
+            .popup-title {
+                font-size: 1.3rem;
             }
         }
 
-        .close {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            outline: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            border-radius: var(--br-100);
-            width: 40px;
-            height: 40px;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            align-content: center;
-            background: transparent;
-            transition-duration: .3s;
-            z-index: 30001;
-            
-            &.visible {
-                display: flex;
-                background: rgba(from var(--text-primary) r g b / 0.4);
+        @media (max-width: 480px) {
+            .popup-image-section {
+                height: 35vh;
+                min-height: 180px;
             }
 
-            svg {
-                width: 30px;
+            .popup-header {
+                padding: 16px 16px 12px;
+            }
+
+            .popup-content {
+                padding: 12px 16px 16px;
+            }
+
+            .popup-footer {
+                padding: 10px 16px;
+            }
+
+            .popup-title {
+                font-size: 1.2rem;
+            }
+
+            .footer-btn {
+                flex: 1;
+                justify-content: center;
             }
         }
     `,
     template: `
-        <div class="container" #container>
-            <div class="scroll-content" #scroll_content>
-                <div class="image">
-                    <img alt="exhibit image" #image>
-                    <div class="next">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-right">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M5 12l14 0"/>
-                            <path d="M15 16l4 -4"/>
-                            <path d="M15 8l4 4"/>
-                        </svg>
-                    </div>
-                    <div class="prev">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-left">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M5 12l14 0"/>
-                            <path d="M5 12l4 4"/>
-                            <path d="M5 12l4 -4"/>
-                        </svg>
-                    </div>
+        <div class="popup-overlay" [class.active]="isOpen()">
+            <div class="popup-backdrop" (click)="close_popup()"></div>
+            
+            <div class="popup-container">
+                <button class="popup-close" (click)="close_popup()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+                
+                <div class="popup-image-section">
+                    <img [src]="currentImage()" [alt]="exhibit.name" />
+                    
+                    @if (exhibit.src.length > 1) {
+                        <div class="image-nav">
+                            @for (img of exhibit.src; track img; let i = $index) {
+                                <div 
+                                    class="image-dot" 
+                                    [class.active]="currentIndex() === i"
+                                    (click)="goToImage(i)"
+                                ></div>
+                            }
+                        </div>
+                    }
                 </div>
-
-                <div class="info">
-                    <p class="header">{{ exhibit.name }}</p>
-                    <p [innerHTML]="exhibit.description" class="description"></p>
+                
+                <div class="popup-info-section">
+                    <div class="popup-header">
+                        <p class="popup-category">Экспонат • №{{ exhibit.id }}</p>
+                        <h2 class="popup-title">{{ exhibit.name }}</h2>
+                    </div>
+                    
+                    <div class="popup-content" #scroll_container>
+                        <div class="popup-description" [innerHTML]="exhibit.description"></div>
+                    </div>
+                    
+                    <div class="popup-footer">
+                        <button class="footer-btn" (click)="prevImage()" [disabled]="currentIndex() === 0">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <path d="M15 18l-6-6 6-6"/>
+                            </svg>
+                            Назад
+                        </button>
+                        <button class="footer-btn" (click)="nextImage()" [disabled]="currentIndex() >= exhibit.src.length - 1">
+                            Далее
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <path d="M9 18l6-6-6-6"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <button (click)="close_popup()" class="close" #close>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                 class="icon icon-tabler icons-tabler-outline icon-tabler-x">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                <path d="M18 6l-12 12"/>
-                <path d="M6 6l12 12"/>
-            </svg>
-        </button>
-    `,
+    `
 })
 export class ExhibitPopup {
     exhibit: ExhibitModel = {
@@ -174,23 +358,24 @@ export class ExhibitPopup {
         description: '',
         name: '',
         src: [''],
-    }
+    };
+
     bounds!: DOMRect;
+    isOpen = signal(false);
+    currentIndex = signal(0);
 
     @ViewChild('container') container!: ElementRef<HTMLDivElement>;
-    @ViewChild('scroll_content') scroll_content!: ElementRef<HTMLDivElement>;
-    @ViewChild('image') image!: ElementRef<HTMLImageElement>;
-    @ViewChild('close') closeButton!: ElementRef<HTMLButtonElement>;
+    @ViewChild('scroll_container') scroll_container!: ElementRef<HTMLDivElement>;
 
     constructor(
         private exhibit_service: ExhibitService,
     ) {
         effect(() => {
             const exhibit = this.exhibit_service.exhibit_popup();
-            if (this.container == undefined) return;
             if (exhibit) {
                 this.exhibit = exhibit;
                 this.bounds = this.exhibit_service.exhibit_bounds()!;
+                this.currentIndex.set(0);
                 this.show();
             } else {
                 this.hide();
@@ -198,58 +383,50 @@ export class ExhibitPopup {
         });
     }
 
+    currentImage() {
+        return `images/exhibits/${ this.exhibit.src[this.currentIndex()] }`;
+    }
+
+    goToImage(index: number) {
+        this.currentIndex.set(index);
+    }
+
+    prevImage() {
+        if (this.currentIndex() > 0) {
+            this.currentIndex.update(i => i - 1);
+        }
+    }
+
+    nextImage() {
+        if (this.currentIndex() < this.exhibit.src.length - 1) {
+            this.currentIndex.update(i => i + 1);
+        }
+    }
+
     show() {
-        if (this.container === undefined) return;
-        document.body.style.overflowY = 'hidden';
-
-        this.image.nativeElement.src = `images/exhibits/${this.exhibit.src[0]}`;
-
-        this.closeButton.nativeElement.classList.add('visible');
-
-        this.container.nativeElement.style.top = `${this.bounds.top}px`;
-        this.container.nativeElement.style.left = `${this.bounds.left}px`;
-        this.container.nativeElement.style.width = `${this.bounds.width}px`;
-        this.container.nativeElement.style.height = `${this.bounds.height}px`;
-
-        setTimeout(() => {
-            this.container.nativeElement.style.display = 'flex';
-            this.container.nativeElement.style.transitionDuration = '.3s';
-        }, 10);
-
-        setTimeout(() => {
-            this.container.nativeElement.style.top = '0';
-            this.container.nativeElement.style.left = '0';
-            this.container.nativeElement.style.width = '100vw';
-            this.container.nativeElement.style.height = '100vh';
-            this.container.nativeElement.style.padding = '32px';
-
-            this.image.nativeElement.style.width = '100%';
-
-        }, 20);
+        this.isOpen.set(true);
+        document.body.style.overflow = 'hidden';
     }
 
     hide() {
-        if (this.container === undefined) return;
-        this.scroll_content.nativeElement.scrollTo(0, 0);
-
-        document.body.style.overflowY = 'scroll';
-
-        this.container.nativeElement.style.padding = '0';
-        this.container.nativeElement.style.top = `${this.bounds.top}px`;
-        this.container.nativeElement.style.left = `${this.bounds.left}px`;
-        this.container.nativeElement.style.width = `${this.bounds.width}px`;
-        this.container.nativeElement.style.height = `${this.bounds.height}px`;
-        this.closeButton.nativeElement.classList.remove('visible');
-
-        setTimeout(() => {
-            this.container.nativeElement.style.display = 'none';
-            this.container.nativeElement.style.transitionDuration = '0s';
-        }, 310);
+        this.isOpen.set(false);
+        document.body.style.overflow = '';
+        if (this.scroll_container?.nativeElement) {
+            this.scroll_container.nativeElement.scrollTop = 0;
+        }
     }
 
-    @HostListener('window:keydown.escape')
-    onKeyDown() {
-        this.close_popup();
+    @HostListener('window:keydown', ['$event'])
+    onKeyDown(event: KeyboardEvent) {
+        if (!this.isOpen()) return;
+
+        if (event.key === 'Escape') {
+            this.close_popup();
+        } else if (event.key === 'ArrowLeft') {
+            this.prevImage();
+        } else if (event.key === 'ArrowRight') {
+            this.nextImage();
+        }
     }
 
     close_popup() {

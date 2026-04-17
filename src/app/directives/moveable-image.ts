@@ -1,4 +1,4 @@
-import {AfterViewInit, Directive, ElementRef, Input} from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core';
 
 @Directive({
     standalone: true,
@@ -37,7 +37,7 @@ export class MoveableImage implements AfterViewInit {
         const degX = (x * 2 / bound.width) * this.MAX_DEG;
         const degY = (y * 2 / bound.height) * this.MAX_DEG;
 
-        image.style.transform = `perspective(1500px) rotateY(${-degX}deg) rotateX(${degY}deg) scale3d(1,1,1)`;
+        image.style.transform = `perspective(1500px) rotateY(${ -degX }deg) rotateX(${ degY }deg) scale3d(1,1,1)`;
     }
 
     onMouseLeave(image: HTMLDivElement) {

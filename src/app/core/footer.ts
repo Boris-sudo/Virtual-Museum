@@ -134,10 +134,11 @@ import { Router } from '@angular/router';
     `
 })
 export class Footer {
-    constructor(private router: Router) {}
+    constructor(private router: Router) {
+    }
 
     redirectTo(url: string) {
         window.scrollTo({ top: 0 });
-        this.router.navigateByUrl(url === '' ? '/' : `/${url}`);
+        this.router.navigateByUrl(url === '' ? '/' : `/${ url }`);
     }
 }

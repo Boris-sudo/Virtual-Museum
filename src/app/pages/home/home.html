@@ -1,212 +1,238 @@
 <div class="home-page">
+    <div class="grid-lines"></div>
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+    
     <section class="hero">
-        <div class="hero-copy">
-            <p class="eyebrow">Виртуальный музей истории Руси</p>
-            <h1>Русь после испытания: как камень, икона и город собрали страну заново.</h1>
-            <p class="lead">
-                Главная выставка сезона посвящена XIII–XV векам: времени, когда после разорения
-                заново выстраиваются города, появляется новый язык обороны и рождается один из
-                самых сильных визуальных образов русской истории.
-            </p>
-
-            <div class="hero-actions">
-                <button type="button" class="primary-button" (click)="openExhibition(featuredExhibition()?.id)">
-                    Открыть выставку
+        <div class="floating-shapes-mobile">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+        </div>
+        
+        <div class="hero-content">
+            <div class="hero-index reveal slide-left">
+                <span class="index-line"></span>
+                <span class="index-text">001</span>
+            </div>
+            
+            <div class="hero-text">
+                <h1 class="reveal">
+                    <span class="word-wrap"><span class="word">История</span></span><br>
+                    <span class="word-wrap"><span class="word">Руси</span></span>
+                </h1>
+                <p class="hero-subtitle reveal" style="transition-delay: 0.3s">Виртуальный музей XIII–XV веков</p>
+            </div>
+            
+            <div class="hero-actions reveal" style="transition-delay: 0.5s">
+                <button type="button" class="btn-primary" (click)="openExhibition(featuredExhibition()?.id)">
+                    <span>Открыть выставку</span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                 </button>
-                <button type="button" class="secondary-button" (click)="navigate('gallery')">
+                <button type="button" class="btn-secondary" (click)="navigate('gallery')">
                     Смотреть коллекцию
                 </button>
             </div>
-
-            <div class="hero-metrics">
-                <div class="metric">
-                    <span class="value">01</span>
-                    <span class="label">действующая выставка</span>
-                </div>
-                <div class="metric">
-                    <span class="value">{{ exhibitCount() }}</span>
-                    <span class="label">экспоната в коллекции</span>
-                </div>
-                <div class="metric">
-                    <span class="value">03</span>
-                    <span class="label">следующие темы в плане</span>
-                </div>
-            </div>
         </div>
-
-        <div class="hero-panel">
-            <article class="curator-card">
-                <p class="card-label">Текущая выставка</p>
-                <h2>{{ featuredExhibition()?.title || 'Русь XIII–XV веков: испытание и возрождение' }}</h2>
-                <p>
-                    {{
-                        featuredExhibition()?.small_content ||
-                            'Маршрут о кремлях, монастырях, оружии, фреске и иконописи как языке собирающегося государства.'
-                    }}
-                </p>
-                <button type="button" class="inline-link" (click)="scrollTo('current-exhibition')">
-                    Как устроен маршрут
-                </button>
-            </article>
-
-            <div class="hero-visual">
-                <img src="images/exhibits/img_20.png" alt="Троица Андрея Рублева" />
-            </div>
-        </div>
-
-        <div class="orb orb-left"></div>
-        <div class="orb orb-right"></div>
-    </section>
-
-    <section class="overview" id="museum-route">
-        <div class="section-head">
-            <p class="section-label">Что внутри музея</p>
-            <h2>Одна выставка уже работает, но структура страницы рассчитана на музейную программу, а не на блог.</h2>
-        </div>
-
-        <div class="overview-grid">
-            @for (card of overviewCards; track card.title) {
-                <article class="overview-card">
-                    <p class="index">0{{ $index + 1 }}</p>
-                    <h3>{{ card.title }}</h3>
-                    <p>{{ card.description }}</p>
-                </article>
-            }
-        </div>
-    </section>
-
-    <section class="featured-exhibition" id="current-exhibition">
-        <div class="section-head split">
-            <div>
-                <p class="section-label">Главная экспозиция</p>
-                <h2>{{ featuredExhibition()?.title || 'Русь XIII–XV веков' }}</h2>
-            </div>
-            <p class="section-copy">
-                Сейчас музей работает как единый кураторский проход: от архитектуры и планировки
-                русских городов к фортификации, затем к фреске и иконе. Это не набор случайных
-                статей, а одна длинная история с предметами, которые можно открывать прямо по ходу
-                чтения.
-            </p>
-        </div>
-
-        <div class="featured-layout">
-            <article class="feature-note">
-                <p class="note-label">Маршрут просмотра</p>
-
-                <div class="route-item">
-                    <span>01</span>
-                    <div>
-                        <h3>Архитектура собирающейся Руси</h3>
-                        <p>Кремли, монастыри-сторожи и новая столичная перспектива Москвы.</p>
-                    </div>
-                </div>
-
-                <div class="route-item">
-                    <span>02</span>
-                    <div>
-                        <h3>Северо-запад и оборонный опыт</h3>
-                        <p>Новгород, Псков и реакция городов на огнестрельное оружие.</p>
-                    </div>
-                </div>
-
-                <div class="route-item">
-                    <span>03</span>
-                    <div>
-                        <h3>Фреска и иконопись</h3>
-                        <p>Феофан, Рублев и Дионисий как художественный итог эпохи.</p>
-                    </div>
-                </div>
-            </article>
-
-            <article class="feature-story">
-                <p>
-                    Визуально страница устроена как музейный вестибюль: крупный вход, спокойная
-                    типографика, редкие акценты и много воздуха. Внутри самой выставки материал
-                    остаётся плотным и историческим, но подача становится чище: длинный текст
-                    разбит на главы, а экспонаты встроены как полноценные остановки маршрута.
-                </p>
-                <p>
-                    Следующие три выставки можно добавлять без смены структуры: для них уже есть
-                    отдельный блок на главной, а навигация больше не зависит от промежуточной
-                    страницы со списком блогов.
-                </p>
-
-                <div class="feature-actions">
-                    <button type="button" class="primary-button" (click)="openExhibition(featuredExhibition()?.id)">
-                        Перейти к экспозиции
-                    </button>
-                    <button type="button" class="secondary-button" (click)="navigate('gallery')">
-                        Открыть все экспонаты
-                    </button>
-                </div>
-            </article>
-        </div>
-    </section>
-
-    <section class="artifact-preview">
-        <div class="section-head">
-            <p class="section-label">Выбор куратора</p>
-            <h2>Несколько точек входа в выставку, если хочется начать не с текста, а с предмета.</h2>
-        </div>
-
-        <div class="artifact-grid">
-            @for (card of featuredArtifacts(); track card.id) {
-                @if (card.exhibit; as exhibit) {
-                    <article class="artifact-card">
+        
+        <div class="hero-visual reveal slide-right" style="transition-delay: 0.2s">
+            <div class="visual-frame">
+                @if (primaryArtifact(); as artifact) {
+                    @if (artifact.exhibit; as exhibit) {
                         <button
-                            #artifactCard
-                            type="button"
-                            class="artifact-media"
-                            (click)="openExhibit(exhibit, artifactCard)"
+                                type="button"
+                                class="frame-image tilt-card"
+                                (click)="openExhibit(exhibit, $event.target)"
                         >
-                            <img [src]="'images/exhibits/' + exhibit.src[0]" [alt]="exhibit.name" />
+                            <img [src]="'images/exhibits/' + exhibit.src[0]" [alt]="exhibit.name"/>
+                            <div class="image-overlay">
+                                <span>{{ exhibit.name }}</span>
+                            </div>
                         </button>
+                    }
+                }
 
-                        <div class="artifact-copy">
-                            <p class="artifact-kicker">{{ card.section }}</p>
-                            <h3>{{ exhibit.name }}</h3>
-                            <p>{{ card.description }}</p>
-                            <span>{{ card.period }}</span>
+                <div class="frame-decoration">
+                    <div class="deco-line"></div>
+                    <div class="deco-dot"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="marquee">
+        <div class="marquee-content">
+            <span>История Руси</span>
+            <span>XIII–XV века</span>
+            <span>Виртуальный музей</span>
+            <span>Архитектура</span>
+            <span>Иконопись</span>
+            <span>Фортификация</span>
+            <span>История Руси</span>
+            <span>XIII–XV века</span>
+            <span>Виртуальный музей</span>
+            <span>Архитектура</span>
+            <span>Иконопись</span>
+            <span>Фортификация</span>
+        </div>
+    </div>
+    
+    <section class="exhibition" id="museum-route">
+        <div class="section-header">
+            <div class="header-left reveal slide-left">
+                <span class="section-index">002</span>
+                <h2>Текущая<br/>выставка</h2>
+            </div>
+            <div class="header-right reveal slide-right" style="transition-delay: 0.2s">
+                <p>Маршрут от города к храму, от камня к образу</p>
+            </div>
+        </div>
+        
+        <div class="exhibition-content">
+            <div class="content-lead reveal" style="transition-delay: 0.1s">
+                <p>{{ featuredExhibition()?.title || 'Русь XIII–XV веков: испытание и возрождение' }}</p>
+            </div>
+            
+            <div class="route-timeline">
+                @for (room of exhibitionRooms; track room.title; let i = $index) {
+                    <button type="button" (click)="navigate(room.link)" class="timeline-item reveal" [class.timeline-accent]="i === 0" [style.transition-delay.ms]="200 + i * 100">
+                        <div class="timeline-marker">
+                            <span class="marker-number">0{{ i + 1 }}</span>
+                            <span class="marker-line"></span>
                         </div>
+                        <div class="timeline-content">
+                            <span class="timeline-phase">{{ room.phase }}</span>
+                            <h3>{{ room.title }}</h3>
+                            <p>{{ room.description }}</p>
+                        </div>
+                    </button>
+                }
+            </div>
+        </div>
+    </section>
+    
+    <section class="manifesto">
+        <div class="manifesto-content reveal slide-left">
+            <span class="section-index">003</span>
+            <blockquote>
+                От архитектуры и города — к обороне, затем к фреске и иконе как художественному итогу эпохи.
+            </blockquote>
+            <div class="manifesto-meta">
+                <span>Кураторская концепция</span>
+            </div>
+        </div>
+        
+        <div class="manifesto-actions reveal slide-right" style="transition-delay: 0.2s">
+            <button type="button" class="btn-primary" (click)="openExhibition(featuredExhibition()?.id)">
+                <span>Перейти к экспозиции</span>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <button type="button" class="btn-outline" (click)="navigate('gallery')">
+                Открыть витрину
+            </button>
+        </div>
+    </section>
+    
+    <section class="collection" id="collection">
+        <div class="section-header">
+            <div class="header-left reveal slide-left">
+                <span class="section-index">004</span>
+                <h2>Избранные<br/>экспонаты</h2>
+            </div>
+            <div class="header-right reveal slide-right" style="transition-delay: 0.2s">
+                <p>Ключевые предметы экспозиции</p>
+            </div>
+        </div>
+        
+        <div class="collection-showcase">
+            @for (card of allArtifacts(); track card.id; let i = $index) {
+                @if (card.exhibit; as exhibit) {
+                    <article class="collection-card reveal" [style.transition-delay.ms]="100 + i * 80">
+                        <button
+                                type="button"
+                                class="card-media tilt-card"
+                                (click)="openExhibit(exhibit, $event.target)"
+                        >
+                            <img [src]="'images/exhibits/' + exhibit.src[0]" [alt]="exhibit.name"/>
+                            <div class="card-hover-overlay">
+                                <span class="view-label">Смотреть</span>
+                            </div>
+                        </button>
+                        <div class="card-body">
+                            <span class="card-section">{{ card.section }}</span>
+                            <h3 class="card-title">{{ exhibit.name }}</h3>
+                            <p class="card-desc">{{ card.description }}</p>
+                            <span class="card-period">{{ card.period }}</span>
+                        </div>
+                        <span class="card-index">0{{ i + 1 }}</span>
                     </article>
                 }
             }
         </div>
     </section>
-
-    <section class="planned-exhibitions">
-        <div class="section-head split">
-            <div>
-                <p class="section-label">Следующие выставки</p>
-                <h2>Пока работает одна экспозиция, но главная уже ведет себя как афиша музея.</h2>
+    
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item reveal" style="transition-delay: 0.1s">
+                <div class="stat-number counter" data-target="1">1</div>
+                <div class="stat-label">экспозиция</div>
             </div>
-            <p class="section-copy">
-                Вместо страницы со списком блогов здесь теперь блок с будущей программой. Он
-                спокойно расширится до трех полноценных выставок, не ломая ритм главной страницы.
-            </p>
+            <div class="stat-item reveal" style="transition-delay: 0.2s">
+                <div class="stat-number counter" [attr.data-target]="exhibitCount()">{{ exhibitCount() }}</div>
+                <div class="stat-label">экспонатов</div>
+            </div>
+            <div class="stat-item reveal" style="transition-delay: 0.3s">
+                <div class="stat-number counter" data-target="4">4</div>
+                <div class="stat-label">зала</div>
+            </div>
         </div>
-
-        <div class="planned-grid">
-            @for (item of plannedExhibitions; track item.title) {
-                <article class="planned-card">
-                    <p class="status">{{ item.status }}</p>
-                    <h3>{{ item.title }}</h3>
-                    <p>{{ item.description }}</p>
+    </section>
+    
+    <section class="program">
+        <div class="section-header">
+            <div class="header-left reveal slide-left">
+                <span class="section-index">005</span>
+                <h2>Афиша<br/>сезона</h2>
+            </div>
+        </div>
+        
+        <div class="program-list">
+            @for (item of plannedExhibitions; track item.title; let i = $index) {
+                <article class="program-item reveal" [style.transition-delay.ms]="100 + i * 150">
+                    <span class="item-number">0{{ i + 1 }}</span>
+                    <div class="item-content">
+                        <span class="item-status">{{ item.status }}</span>
+                        <h3>{{ item.title }}</h3>
+                        <p>{{ item.description }}</p>
+                    </div>
                 </article>
             }
         </div>
     </section>
-
+    
     <section class="cta">
-        <div>
-            <p class="section-label">Связь с музеем</p>
-            <h2>Если захочешь расширить программу, структура уже готова: остаётся добавлять новые выставки и экспонаты.</h2>
+        <div class="cta-content reveal slide-left">
+            <span class="section-index">006</span>
+            <h2>Свяжитесь<br/>с нами</h2>
+            <p>Готовы к расширению: новые залы, выставки и экспонаты</p>
         </div>
-
-        <div class="cta-actions">
-            <a href="mailto:boriskiva67@gmail.com">boriskiva67&#64;gmail.com</a>
-            <button type="button" class="secondary-button" (click)="openExhibition(featuredExhibition()?.id)">
-                Вернуться к выставке
+        
+        <div class="cta-actions reveal slide-right" style="transition-delay: 0.2s">
+            <a href="mailto:boriskiva67@gmail.com" class="contact-link">
+                <span class="link-label">Email</span>
+                <span class="link-value">boriskiva67&#64;gmail.com</span>
+            </a>
+            <button type="button" class="btn-primary" (click)="openExhibition(featuredExhibition()?.id)">
+                <span>Открыть выставку</span>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
             </button>
         </div>
     </section>

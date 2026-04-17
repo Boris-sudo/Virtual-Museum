@@ -6,46 +6,47 @@ import { filter, Subscription } from "rxjs";
 @Component({
     selector: 'SidebarComp',
     imports: [],
+    standalone: true,
     styles: `
         .container {
-            position: fixed;
-            left: 0;
-            width: 100vw;
-            display: none;
-            z-index: 9999;
-            overflow: hidden;
+            position:            fixed;
+            left:                0;
+            width:               100vw;
+            display:             none;
+            z-index:             9999;
+            overflow:            hidden;
             transition-duration: .3s;
 
             .content, .image {
-                position: absolute;
-                width: 50%;
-                height: 100%;
+                position:            absolute;
+                width:               50%;
+                height:              100%;
                 transition-duration: .6s;
-                background: rgba(from var(--background-secondary) r g b / 60%);
-                backdrop-filter: blur(5px);
-                border-bottom: 1px solid var(--background-secondary);
+                background:          rgba(from var(--background-secondary) r g b / 60%);
+                backdrop-filter:     blur(5px);
+                border-bottom:       1px solid var(--background-secondary);
 
                 @media screen and (max-width: 600px) {
                 }
             }
 
             .image {
-                left: calc(50%);
+                left:             calc(50%);
                 transition-delay: .2s;
-                border-left: 1px solid var(--background-secondary);
+                border-left:      1px solid var(--background-secondary);
 
                 img {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    object-position: 50% 50%;
-                    opacity: 0;
-                    backdrop-filter: blur(5px);
+                    position:            absolute;
+                    top:                 0;
+                    left:                0;
+                    width:               100%;
+                    height:              100%;
+                    object-fit:          cover;
+                    object-position:     50% 50%;
+                    opacity:             0;
+                    backdrop-filter:     blur(5px);
                     transition-duration: .6s;
-                    z-index: -3;
+                    z-index:             -3;
 
                     &.hover {
                         z-index: -2;
@@ -71,44 +72,44 @@ import { filter, Subscription } from "rxjs";
             }
 
             &:not(.small) {
-                top: var(--header-big-height);
+                top:    var(--header-big-height);
                 height: calc(100vh - var(--header-big-height));
             }
 
             &.small {
-                top: var(--header-small-height);
+                top:    var(--header-small-height);
                 height: calc(100vh - var(--header-small-height));
             }
         }
 
         .content {
-            padding: 32px 32px 100px;
-            left: 0;
-            border-right: 1px solid var(--background-secondary);
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+            padding:         32px 32px 100px;
+            left:            0;
+            border-right:    1px solid var(--background-secondary);
+            display:         flex;
+            flex-direction:  column;
+            gap:             20px;
             justify-content: space-between;
-            overflow: hidden;
-            height: max-content;
+            overflow:        hidden;
+            height:          max-content;
 
             @media screen and (max-width: 600px) {
-                overflow-y: scroll !important;
+                overflow-y:          scroll !important;
                 overscroll-behavior: contain !important;
             }
 
             .block {
-                width: 100%;
-                display: flex;
+                width:          100%;
+                display:        flex;
                 flex-direction: column;
-                gap: 20px;
+                gap:            20px;
 
                 p {
-                    width: 100%;
-                    cursor: pointer;
-                    overflow: hidden;
-                    display: flex;
-                    flex-direction: row;
+                    width:           100%;
+                    cursor:          pointer;
+                    overflow:        hidden;
+                    display:         flex;
+                    flex-direction:  row;
                     justify-content: space-between;
 
                     .text, .arrow-component {
@@ -116,8 +117,8 @@ import { filter, Subscription } from "rxjs";
                     }
 
                     .text {
-                        transform: translateX(-50vw);
-                        font-size: 40px;
+                        transform:   translateX(-50vw);
+                        font-size:   40px;
                         font-weight: bold;
 
                         @media screen and (max-width: 600px) {
@@ -127,29 +128,29 @@ import { filter, Subscription } from "rxjs";
                     }
 
                     .arrow-component {
-                        position: relative;
-                        transform: translateX(50vw);
-                        overflow: visible;
-                        display: flex;
-                        flex-direction: row;
+                        position:        relative;
+                        transform:       translateX(50vw);
+                        overflow:        visible;
+                        display:         flex;
+                        flex-direction:  row;
                         justify-content: center;
-                        align-items: center;
-                        padding-right: 10px;
+                        align-items:     center;
+                        padding-right:   10px;
 
                         @media screen and (max-width: 600px) {
                             transform: translateX(100vw);
                         }
 
                         .arrow-circle {
-                            position: absolute;
-                            top: 50%;
-                            right: 0;
-                            transform: translateY(-50%);
-                            height: 20px;
-                            aspect-ratio: 1/1;
-                            background: var(--background-accent);
+                            position:      absolute;
+                            top:           50%;
+                            right:         0;
+                            transform:     translateY(-50%);
+                            height:        20px;
+                            aspect-ratio:  1/1;
+                            background:    var(--background-accent);
                             border-radius: var(--br-100);
-                            z-index: -1;
+                            z-index:       -1;
                         }
                     }
 
@@ -168,31 +169,31 @@ import { filter, Subscription } from "rxjs";
             }
 
             .contacts {
-                display: flex;
+                display:        flex;
                 flex-direction: row;
-                flex-wrap: wrap;
-                gap: 12px;
+                flex-wrap:      wrap;
+                gap:            12px;
 
                 a {
-                    min-height: 46px;
-                    padding: 0 18px;
-                    cursor: pointer;
-                    background: var(--text-primary);
-                    color: var(--background-primary);
-                    border-radius: var(--br-100);
-                    display: flex;
-                    align-items: center;
+                    min-height:      46px;
+                    padding:         0 18px;
+                    cursor:          pointer;
+                    background:      var(--text-primary);
+                    color:           var(--background-primary);
+                    border-radius:   var(--br-100);
+                    display:         flex;
+                    align-items:     center;
                     justify-content: center;
-                    font-size: 14px;
-                    font-weight: 700;
-                    letter-spacing: 0.08em;
-                    text-transform: uppercase;
-                    transition: transform .6s var(--timeout), background-color .3s, color .3s;
-                    transform: translateY(200px);
+                    font-size:       14px;
+                    font-weight:     700;
+                    letter-spacing:  0.08em;
+                    text-transform:  uppercase;
+                    transition:      transform .6s var(--timeout), background-color .3s, color .3s;
+                    transform:       translateY(200px);
 
                     &:hover {
                         background: var(--background-accent);
-                        color: var(--background-primary);
+                        color:      var(--background-primary);
                     }
                 }
             }
@@ -202,7 +203,6 @@ import { filter, Subscription } from "rxjs";
             }
         }
     `,
-    standalone: true,
     template: `
         <div class="container" #container>
             <div class="content">
@@ -308,7 +308,7 @@ export class Sidebar implements AfterViewInit {
 
     redirectTo(url: string) {
         window.scrollTo(0, 0);
-        this.router.navigateByUrl(url === '' ? '/' : `/${url}`);
+        this.router.navigateByUrl(url === '' ? '/' : `/${ url }`);
         this.sidebarInteractionService.toggle();
     }
 

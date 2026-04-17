@@ -1,6 +1,6 @@
-import {Injectable, signal} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {firstValueFrom, map, Observable} from 'rxjs';
+import { Injectable, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom, map, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -18,10 +18,10 @@ export class ImagesService {
     }
 
     getAllImages(): Observable<string[]> {
-        return this.http.get<any>(`${this.basePath}manifest.json`).pipe(
+        return this.http.get<any>(`${ this.basePath }manifest.json`).pipe(
             map(manifest => manifest.files),
-            map(images => images.map((image : string) => {
-                return `images/${image}`;
+            map(images => images.map((image: string) => {
+                return `images/${ image }`;
             }))
         );
     }

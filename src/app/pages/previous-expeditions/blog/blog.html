@@ -1,41 +1,98 @@
-<div class="container">
-
+<div class="blog-page">
     @if (blogLoaded()) {
-        <div class="banner" [style]="{'background-image': 'url('+blog.preview+')'}">
-            <h1>{{ blog.title }}</h1>
-        </div>
-
-        <div class="blog-container">
-            <div class="chapters">
-                @for (blogContent of blog.content; track blogContent) {
-                    <p>{{ blogContent.title }}</p>
-                }
+        <header class="blog-header">
+            <div class="header-bg" [style.background-image]="'url(' + blog.preview + ')'"></div>
+            <div class="header-overlay"></div>
+            
+            <div class="header-content">
+                <div class="header-meta reveal slide-left">
+                    <span class="header-index">Exhibition</span>
+                    <span class="header-divider">/</span>
+                    <span class="header-date">{{ blog.date }}</span>
+                </div>
+                
+                <h1 class="header-title reveal">
+                    <span class="word-wrap"><span class="word">{{ blog.title }}</span></span>
+                </h1>
+                
+                <p class="header-subtitle reveal" style="transition-delay: 0.2s">
+                    Виртуальная выставка • Интерактивный тур
+                </p>
             </div>
-            <div class="text-container">
-                @for (blogContent of blog.content; track blog) {
-                    <div class="data">
-                        @for (blogData of blogContent.data; track blog) {
-                            <p [innerHTML]="''+blogData.text"></p>
+            
+            <div class="header-scroll">
+                <span>Листайте вниз</span>
+                <div class="scroll-line"></div>
+            </div>
+        </header>
+        
+        <nav class="blog-nav">
+            <div class="nav-inner">
+                <span class="nav-label">Содержание</span>
+                <div class="chapter-list">
+                    @for (blogContent of blog.content; track blogContent; let i = $index) {
+                        <button
+                                type="button"
+                                class="chapter-link"
+                                (click)="scrollToChapter(i)"
+                        >
+                            <span class="chapter-number">0{{ i + 1 }}</span>
+                            <span class="chapter-title">{{ blogContent.title }}</span>
+                        </button>
+                    }
+                </div>
+            </div>
+        </nav>
+        
+        <main class="blog-content">
+            @for (blogContent of blog.content; track blogContent; let chapterIndex = $index) {
+                <section class="content-section" [id]="'chapter-' + chapterIndex">
+                    <div class="section-header reveal">
+                        <span class="section-number">0{{ chapterIndex + 1 }}</span>
+                        <h2>{{ blogContent.title }}</h2>
+                    </div>
 
-                            <figure
-                                    [style.max-width]="blogData.exhibits.length === 1 ? '600px' : 'none'"
-                                    class="images-container"
-                            >
-                                <div class="images">
-                                    @for (exhibitId of blogData.exhibits; track blog) {
-                                        <Exhibit [exhibitId]="exhibitId"/>
+                    @for (blogData of blogContent.data; track blogData; let dataIndex = $index) {
+                        <div class="text-block reveal" [style.transition-delay.ms]="dataIndex * 100">
+                            <p [innerHTML]="''+blogData.text"></p>
+                        </div>
+
+                        @if (blogData.exhibits.length > 0) {
+                            <div class="exhibits-block reveal" [style.transition-delay.ms]="100 + dataIndex * 100">
+                                <div class="exhibits-grid" [class.single]="blogData.exhibits.length === 1">
+                                    @for (exhibitId of blogData.exhibits; track exhibitId) {
+                                        <div class="exhibit-item">
+                                            <Exhibit [exhibitId]="exhibitId"/>
+                                        </div>
                                     }
                                 </div>
-                                @if (blogContent.title) {
-                                    <figcaption>{{ blogContent.title }}</figcaption>
-                                }
-                            </figure>
+                            </div>
                         }
-                    </div>
-                }
+                    }
+                </section>
+            }
+        </main>
+        
+        <footer class="blog-footer">
+            <div class="footer-content reveal">
+                <span class="footer-label">Конец экспозиции</span>
+                <h2>Продолжите путешествие</h2>
+                <div class="footer-actions">
+                    <button type="button" class="btn-primary" (click)="navigate('/gallery')">
+                        <span>К коллекции</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <button type="button" class="btn-secondary" (click)="navigate('/')">
+                        На главную
+                    </button>
+                </div>
             </div>
-        </div>
+        </footer>
     } @else {
-
+        <div class="loading-state">
+            <div class="loading-spinner"></div>
+        </div>
     }
 </div>

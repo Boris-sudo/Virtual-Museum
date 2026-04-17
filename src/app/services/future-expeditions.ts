@@ -1,6 +1,6 @@
-import {Injectable, signal} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {firstValueFrom, forkJoin, map, Observable} from 'rxjs';
+import { Injectable, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom, forkJoin, map, Observable } from 'rxjs';
 import { BlogModel } from '../models/blog';
 
 @Injectable({
@@ -19,10 +19,10 @@ export class FutureExpeditionsService {
     }
 
     getAllBlogs(): Observable<Observable<any>> {
-        return this.http.get<any>(`${this.basePath}manifest.json`).pipe(
+        return this.http.get<any>(`${ this.basePath }manifest.json`).pipe(
             map(manifest => manifest.files),
             map(files => files.map((file: string) =>
-                this.http.get<any>(`${this.basePath}${file}`)
+                this.http.get<any>(`${ this.basePath }${ file }`)
             )),
             map(requests => forkJoin(requests))
         );

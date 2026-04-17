@@ -1,5 +1,5 @@
-import {AfterViewInit, Directive, ElementRef, Input, Renderer2} from '@angular/core';
-import {AnimationsService} from '../services/animations';
+import { AfterViewInit, Directive, ElementRef, Input, Renderer2 } from '@angular/core';
+import { AnimationsService } from '../services/animations';
 
 @Directive({
     standalone: true,

@@ -14,6 +14,7 @@ export interface BlogModel {
 
 export interface BlogContent {
     title: string;
+    description: string;
     data: BlogContentText[];
 }
 
