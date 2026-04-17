@@ -63,7 +63,7 @@ export class Blog implements AfterViewInit, OnDestroy {
                     }
                 });
             },
-            { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+            { threshold: 0.1, rootMargin: '0px 0px 0px 0px' }
         );
 
         document.querySelectorAll('.reveal, .slide-left, .slide-right').forEach((el) => {
@@ -103,7 +103,7 @@ export class Blog implements AfterViewInit, OnDestroy {
             if (hash && hash.startsWith('#chapter-')) {
                 const chapterIndex = parseInt(hash.replace('#chapter-', ''), 10);
                 if (!isNaN(chapterIndex)) {
-                    this.scrollToChapter(chapterIndex);
+                    this.scrollToChapter(chapterIndex - 1);
                 }
             }
         }, 300);
@@ -113,7 +113,7 @@ export class Blog implements AfterViewInit, OnDestroy {
         const element = document.getElementById(`chapter-${ index }`);
         if (element) {
             setTimeout(() => {
-                const headerOffset = 160;
+                const headerOffset = 200;
                 const top = element.getBoundingClientRect().top + window.scrollY - headerOffset;
                 window.scrollTo({ top, behavior: 'smooth' });
             }, 100);
